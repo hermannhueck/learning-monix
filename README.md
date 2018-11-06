@@ -5,5 +5,5 @@ and playing around with Monix
 
 ## Resources
 
-- Monix Documentation<br/>
+- Monix 3.x Documentation<br/>
   https://monix.io/docs/3x/
