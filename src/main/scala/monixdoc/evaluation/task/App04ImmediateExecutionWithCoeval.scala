@@ -10,7 +10,7 @@ object App04ImmediateExecutionWithCoeval extends App {
 
   val task = Task.eval("Hello!")
 
-  // Replaced with start, since=3.0.0-RC2
+  // Replaced with Task#start, since=3.0.0-RC2
   val tryingNow: Coeval[Either[CancelableFuture[String], String]] = task.coeval
 
   tryingNow.value match {
