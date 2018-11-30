@@ -7,6 +7,7 @@ object App01Callback extends App {
   println("\n-----")
 
   println("Creating a Callback.")
+
   val callback = new Callback[Throwable, Int] {
     def onSuccess(value: Int): Unit =
       println(value)

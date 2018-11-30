@@ -11,8 +11,10 @@ object App03BlockingWithFuture extends App {
 
   println("\n-----")
 
-  val task: Task[String] = Task.eval("Hello!").executeAsync
-  val future: CancelableFuture[String] = task.runToFuture // deprecated: runAsync
+  val task: Task[String] = Task.eval("Hello!").executeAsync // executeAsync introduces an async boundary
+
+  // In order to block on a result, you have to first convert it into a Future by means of runToFuture and then you can block on it:
+  val future: CancelableFuture[String] = task.runToFuture
 
   println(Await.result(future, 3.seconds))
   //=> Hello!

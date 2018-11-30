@@ -1,6 +1,7 @@
 package monixdoc.evaluation.task
 
 // In order to evaluate tasks, we'll need a Scheduler
+import monix.execution.Cancelable
 import monix.execution.Scheduler.Implicits.global
 
 // A Future type that is also Cancelable
@@ -20,21 +21,20 @@ object App01Introduction extends App {
   // just a spec! Task by default has lazy behavior ;-)
   val task = Task { 1 + 1 }
 
-/* runOnComplete is deprecated
+  // runOnComplete is deprecated
   // Tasks get evaluated only on runAsync!
   // Callback style:
-  val cancelable1 = task.runOnComplete { // deprecated
+  val cancelable1: Cancelable = task.runOnComplete { // deprecated
     case Success(value) =>
       println(value)
     case Failure(ex) =>
       System.out.println(s"ERROR: ${ex.getMessage}")
   }
   //=> 2
-*/
 
   // Tasks get evaluated only on runAsync!
   // Callback style:
-  val cancelable2 = task.runAsync { // replaces runOnComplete
+  val cancelable2: Cancelable = task.runAsync { // replaces runOnComplete
     case Right(value) =>
       println(value)
     case Left(ex) =>
@@ -43,7 +43,7 @@ object App01Introduction extends App {
   //=> 2
 
   // Or you can convert it into a Future
-  val future: CancelableFuture[Int] = task.runToFuture // runAsync is deprecated
+  val future: CancelableFuture[Int] = task.runToFuture
 
   // Printing the result asynchronously
   future.foreach(println)
