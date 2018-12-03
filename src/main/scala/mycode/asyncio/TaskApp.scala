@@ -1,53 +1,66 @@
 package mycode.asyncio
 
 import monix.execution.Scheduler.Implicits.global
+//import monix.eval.Task
+import mycode.asyncio.task.Task
 
 import scala.util.{Failure, Success, Try}
 
-object AppTask extends App {
+object TaskApp extends App {
 
-  println("\n-----")
+  val millisToSleep = 500L
 
   {
-    println("===== Task.now")
-    val task = Task.now(1 + 1)
+    println("----- Task.eval")
+    val task = Task.eval { println("!!! side effect"); 1 + 1 }
 
-    println(task.run())
+    println(task.runToTry)
+    println(task.runToEither)
+    runToFuture(task)
+    runOnComplete(task)
+    runAsync(task)
+    Thread.sleep(millisToSleep)
+  }
 
-    task.runToFuture foreach println
+  {
+    println("----- Task.now")
+    val task = Task.now { println("!!! side effect"); 1 + 1 }
 
-    task.runOnComplete {
+    println(task.runToTry)
+    println(task.runToEither)
+    runToFuture(task)
+    runOnComplete(task)
+    runAsync(task)
+    Thread.sleep(millisToSleep)
+  }
+
+  {
+    println("----- Task.raiseError")
+    val task = Task.raiseError { println("!!! side effect"); new IllegalStateException("illegal state") }
+
+    println(task.runToTry)
+    println(task.runToEither)
+    runToFuture(task)
+    runOnComplete(task)
+    runAsync(task)
+    Thread.sleep(millisToSleep)
+  }
+
+  private def runToFuture[A](task: Task[A]): Unit =
+    task.runToFuture.onComplete {
       case Failure(t) => println(t.toString)
       case Success(a) => println(a)
     }
 
-    task.runAsync {
-      case Left(t) => println(t.toString)
-      case Right(a) => println(a)
-    }
-  }
-
-  {
-    println("===== Task.raiseError")
-    val task = Task.raiseError(new IllegalStateException("state is illegal"))
-
-    println( Try {
-      task.run()
-    })
-
-    task.runToFuture foreach println // this will not print anything in case of error
-
-    task.runOnComplete {
-      case Failure(t) => println(t.toString)
-      case Success(a) => println(a)
+  private def runOnComplete[A](task: Task[A]): Unit =
+    task.runOnComplete { try_ =>
+      println(try_.fold(_.toString, _.toString))
     }
 
-    task.runAsync {
-      case Left(t) => println(t.toString)
-      case Right(a) => println(a)
+  private def runAsync[A](task: Task[A]): Unit =
+    task.runAsync { either =>
+      println(either.fold(_.toString, _.toString))
     }
-  }
 
-  Thread.sleep(1000L)
   println("-----\n")
 }

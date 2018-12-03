@@ -1,6 +1,6 @@
 package mycode.syncio
 
-object SyncIOApp extends App {
+object AppSyncIO extends App {
 
   println("\n-----")
 
