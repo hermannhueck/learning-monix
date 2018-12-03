@@ -7,15 +7,15 @@ import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 import scala.util.Try
 
-object App03DelayedEvaluation extends App {
+object App03FutureUtilsDelayedResult extends App {
 
   println("\n-----")
 
-  val f: Future[String] = FutureUtils.delayedResult(3.seconds) {
+  val f: Future[String] = FutureUtils.delayedResult(1.seconds) {
     "Hello, world!"
   }
 
-  println(Await.result(f, 4.seconds))
+  println(Await.result(f, 2.seconds))
 
   println("-----\n")
 }

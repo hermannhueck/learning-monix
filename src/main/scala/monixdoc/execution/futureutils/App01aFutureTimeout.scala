@@ -3,28 +3,28 @@ package monixdoc.execution.futureutils
 import monix.execution.FutureUtils
 import monix.execution.Scheduler.Implicits.global
 
+import scala.concurrent.{Await, Future, Promise}
 import scala.concurrent.duration._
-import scala.concurrent.{Await, Future, Promise, TimeoutException}
 
-object App01bTimeoutSlowFutures extends App {
+object App01aFutureTimeout extends App {
 
   println("\n-----")
-  
+
   // Creating a never ending Future
   val p: Promise[Unit] = Promise[Unit]()
   val never: Future[Unit] = p.future
 
-  // After 3 seconds of inactivity, discards the
-  // source and fallbacks to the backup
+  // Creates a new Future that has a race condition
+  // with an error signaling a `TimeoutException`
+  // if the source doesn't complete in time
   import FutureUtils.extensions._
-  never.timeoutTo(3.seconds, Future.failed(new TimeoutException))
+  never.timeout(3.seconds)
 
   // Or as a simple function call
-  FutureUtils.timeoutTo(never, 3.seconds,
-    Future.failed(new TimeoutException))
+  FutureUtils.timeout(never, 3.seconds)
 
   never.onComplete { try_ =>
-    val resultString = try_.toEither.fold(_.toString, _ => "Success")
+    val resultString = try_.fold(_.toString, _ => "Success")
     println(resultString)
   }
 

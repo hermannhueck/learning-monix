@@ -1,20 +1,23 @@
 package monixdoc.execution.scheduler
 
-import scala.concurrent.duration._
+import monix.execution.Cancelable
 
+import scala.concurrent.duration._
 import monix.execution.Scheduler.{global => scheduler}
 
 object App03bScheduleWithDelay extends App {
 
   println("\n-----")
 
-  val c = scheduler.scheduleOnce(5.seconds) {
+  val cancelable: Cancelable = scheduler.scheduleOnce(2.seconds) {
     println("Hello, world!")
   }
+  println("started")
 
   // In case we change our mind, before time's up
-  c.cancel()
+  cancelable.cancel()
+  println("canceled")
 
-  Thread.sleep(6000L)
+  Thread.sleep(2200L)
   println("-----\n")
 }

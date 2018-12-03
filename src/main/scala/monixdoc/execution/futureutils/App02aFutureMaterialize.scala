@@ -7,7 +7,7 @@ import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 import scala.util.Try
 
-object App02aMaterialization extends App {
+object App02aFutureMaterialize extends App {
 
   println("\n-----")
 
@@ -21,7 +21,7 @@ object App02aMaterialization extends App {
   val ft2: Future[Try[Int]] = FutureUtils.materialize(f)
 
   try {
-    println(Await.result(ft, 4.seconds))
+    println(Await.result(ft, 2.seconds))
   } catch {
     case t: Throwable => println(t.toString)
   }

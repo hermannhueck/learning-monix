@@ -11,7 +11,7 @@ object App05InjectingTimeAndTest extends App {
   val testScheduler = TestScheduler()
 
   testScheduler.execute(new Runnable {
-    def run() = println("Immediate!")
+    def run(): Unit = println("Immediate!")
   })
 
   testScheduler.scheduleOnce(1.second) {
