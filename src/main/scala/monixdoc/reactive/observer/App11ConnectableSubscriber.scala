@@ -34,6 +34,6 @@ object App11ConnectableSubscriber extends App {
   ack.isCompleted
   // res: Boolean = true
 
-  Thread.sleep(500L)
+  Thread sleep 500L
   println("-----\n")
 }

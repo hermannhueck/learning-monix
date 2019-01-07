@@ -8,7 +8,7 @@ object App10SafeSubscriber extends App {
 
   println("\n-----")
 
-  def create[A]: SafeSubscriber[A] =
+  def createSafeSubsciber[A]: SafeSubscriber[A] =
     SafeSubscriber(new Subscriber[A] {
 
       val scheduler: Scheduler = global
@@ -23,7 +23,7 @@ object App10SafeSubscriber extends App {
         System.err.println(s"Error: $ex")
     })
 
-  val out = create[Int]
+  val out = createSafeSubsciber[Int]
   // Error in onNext gets caught and handled
   out.onNext(1)
   //=> Error: java.lang.IllegalStateException: onNext
@@ -33,7 +33,7 @@ object App10SafeSubscriber extends App {
   out.onNext(10)
   // res: Future[Ack] = Stop
 
-  val out2 = create[Int]
+  val out2 = createSafeSubsciber[Int]
   out2.onComplete()
   //=> Completed!
 
@@ -45,6 +45,5 @@ object App10SafeSubscriber extends App {
   // (and not unsafeSubscribeFn) the callbacks you give are automatically wrapped
   // in a SafeSubscriber, so you don’t have to do it by yourself.
 
-  Thread.sleep(500L)
   println("-----\n")
 }

@@ -7,7 +7,7 @@ import scala.concurrent.Future
 import scala.util.control.NonFatal
 import monix.reactive.Observer
 
-object App04cObserverFeedingIterator extends App {
+object App04eObserverFeedingIterator extends App {
 
   println("\n-----")
 
@@ -67,6 +67,6 @@ object App04cObserverFeedingIterator extends App {
 
   feed(List(1,2,3,4,5).iterator, observer)
 
-  Thread.sleep(500L)
+  Thread sleep 500L
   println("-----\n")
 }

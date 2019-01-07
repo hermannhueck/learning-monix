@@ -21,12 +21,11 @@ object App12CacheUntilConnectSubscriber extends App {
   // res2: Future[Ack] = Continue
 
   // Nothing happens until connect
-  val result: CancelableFuture[Ack] =
-    subscriber.connect()
+  val result: CancelableFuture[Ack] = subscriber.connect()
   //=> 0: O --> 10
   //=> 1: O --> 20
   //=> 2: O --> 30
 
-  Thread.sleep(500L)
+  Thread sleep 500L
   println("-----\n")
 }

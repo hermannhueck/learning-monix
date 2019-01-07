@@ -45,6 +45,6 @@ object App09SubscriberFromReactive extends App {
   monixSubscriber.onComplete()
   //=> O completed
 
-  Thread.sleep(500L)
+  Thread sleep 500L
   println("-----\n")
 }

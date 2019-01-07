@@ -13,6 +13,6 @@ object App06SubscriberEmpty extends App {
 
   Observable(1, 2, 3).subscribe(subscriber)
 
-  Thread.sleep(500L)
+  Thread sleep 500L
   println("-----\n")
 }

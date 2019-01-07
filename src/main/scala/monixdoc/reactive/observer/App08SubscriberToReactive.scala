@@ -32,6 +32,6 @@ object App08SubscriberToReactive extends App {
   //=> O --> 1
   //=> O completed
 
-  Thread.sleep(500L)
+  Thread sleep 500L
   println("-----\n")
 }

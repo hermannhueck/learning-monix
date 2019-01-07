@@ -18,6 +18,6 @@ object App05SubscriberFromObserver extends App {
   //=> O --> 3
   //=> O completed
 
-  Thread.sleep(500L)
+  Thread sleep 500L
   println("-----\n")
 }
